@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
-import {Router,Response,Request} from 'express';
+import {Request,Response} from 'express';
 
 (async () => {
 
@@ -40,9 +40,7 @@ import {Router,Response,Request} from 'express';
     } else {
       filterImageFromURL(image_url)
         .then((filteredpath) => {
-          // Send back the file
           res.sendFile(filteredpath);
-          // clean up
           res.on("finish", () => {
             deleteLocalFiles([filteredpath]);
           });
