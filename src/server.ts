@@ -30,13 +30,9 @@ import {Request,Response} from 'express';
 
   /**************************************************************************** */
   app.get("/filteredimage", async (req: Request, res: Response) => {
-    let image_url: string = req.query.image_url;
+    const image_url = req.query.image_url.toString();
     if (!image_url) {
-      res
-        .status(422)
-        .send(
-          'Error : please add an image'
-        );
+      res.status(422).send('Error : please add an image');
     } else {
       filterImageFromURL(image_url)
         .then((filteredpath) => {
