@@ -30,25 +30,16 @@ import express, { Request, Response } from "express";
   app.get("/filteredimage", async (req: Request, res: Response) => {
     let image_url: string = req.query.image_url;
     if (!image_url) {
-      res
-        .status(422)
-        .send(
-          'Please try adding  a link to a public image.'
-        );
+      res.status(422).send('Please try adding  a link to a public image.');
     } else {
-      filterImageFromURL(image_url)
-        .then((filteredpath) => {
+      filterImageFromURL(image_url).then((filteredpath) => {
           res.sendFile(filteredpath);
           res.on("finish", () => {
             deleteLocalFiles([filteredpath]);
           });
         })
         .catch((err) => {
-          res
-            .status(422)
-            .send(
-              "Error: The url you provided does not link to a public image file!"
-            );
+          res.status(422).send("Error: issue with URL");
         });
     }
   });
