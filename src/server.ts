@@ -1,10 +1,8 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import {filterImageFromURL, deleteLocalFiles} from './util/util';
-import {Request,Response} from 'express';
+import bodyParser from "body-parser";
+import { filterImageFromURL, deleteLocalFiles } from "./util/util";
+import express, { Request, Response } from "express";
 
 (async () => {
-
   // Init the Express application
   const app = express();
 
@@ -30,9 +28,13 @@ import {Request,Response} from 'express';
 
   /**************************************************************************** */
   app.get("/filteredimage", async (req: Request, res: Response) => {
-    const image_url = req.query.image_url.toString();
+    let image_url: string = req.query.image_url;
     if (!image_url) {
-      res.status(422).send('Error : please add an image');
+      res
+        .status(422)
+        .send(
+          'Please try adding  a link to a public image.'
+        );
     } else {
       filterImageFromURL(image_url)
         .then((filteredpath) => {
@@ -45,23 +47,23 @@ import {Request,Response} from 'express';
           res
             .status(422)
             .send(
-              "Error: not valid URL"
+              "Error: The url you provided does not link to a public image file!"
             );
         });
     }
   });
+
   //! END @TODO1
 
   // Root Endpoint
   // Displays a simple message to the user
-  app.get( "/", async ( req, res ) => {
-    res.send("try GET /filteredimage?image_url={{}}")
-  } );
-
+  app.get("/", async (req: Request, res: Response) => {
+    res.send("try GET /filteredimage?image_url={{}}");
+  });
 
   // Start the Server
-  app.listen( port, () => {
-      console.log( `server running http://localhost:${ port }` );
-      console.log( `press CTRL+C to stop server` );
-  } );
+  app.listen(port, () => {
+    console.log(`server running http://localhost:${port}`);
+    console.log(`press CTRL+C to stop server`);
+  });
 })();
