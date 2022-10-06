@@ -29,7 +29,33 @@ import {Router,Response,Request} from 'express';
   //   the filtered image file [!!TIP res.sendFile(filteredpath); might be useful]
 
   /**************************************************************************** */
-
+  app.get("/filteredimage", async (req: Request, res: Response) => {
+    let image_url: string = req.query.image_url;
+    if (!image_url) {
+      res
+        .status(422)
+        .send(
+          'Error : please add an image'
+        );
+    } else {
+      filterImageFromURL(image_url)
+        .then((filteredpath) => {
+          // Send back the file
+          res.sendFile(filteredpath);
+          // clean up
+          res.on("finish", () => {
+            deleteLocalFiles([filteredpath]);
+          });
+        })
+        .catch((err) => {
+          res
+            .status(422)
+            .send(
+              "Error: not valid URL"
+            );
+        });
+    }
+  });
   //! END @TODO1
 
   // Root Endpoint
