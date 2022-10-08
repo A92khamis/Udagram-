@@ -46,3 +46,5 @@ Prevent requests without valid authentication headers.
 
 Add your own domain name and have it point to the running services (try adding a subdomain name to point to the processing server)
 > !NOTE: Domain names are not included in AWS’ free tier and will incur a cost.
+
+URL to Env : http://udagram-project-dev2.us-east-2.elasticbeanstalk.com/filteredimage?image_url=https://avatars.githubusercontent.com/u/34912930?v=4
